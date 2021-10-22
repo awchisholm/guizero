@@ -11,10 +11,11 @@ def make_image(image_location):
     # Data for plotting
     t = np.arange(0.0, 2.0, 0.01)
     s = 1 + np.sin(2 * np.pi * t)
+    r = np.random.randint(10, size=200)
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     plt.figure(1)
-    plt.plot(t, s)
+    plt.plot(t, r)
     plt.title(f'Simple graph {dt_string}')
     plt.xlabel('X')
     plt.ylabel('Y')
