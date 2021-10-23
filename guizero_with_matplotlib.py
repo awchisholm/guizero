@@ -1,5 +1,6 @@
-from guizero import App, Text, Picture
+from guizero import App, Text, Picture, PushButton
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation, PillowWriter  
 from  matplotlib.pyplot import isinteractive
 import numpy as np
 from datetime import datetime
@@ -23,16 +24,40 @@ def make_image(image_location):
     plt.close(1)
     plt.show()
 
-# Action you would like to perform
+def animation(image_location):
+    fig, ax = plt.subplots()  
+    x, ysin, ycos = [], [], []  
+    ln1, = plt.plot([], [], 'ro')  
+    ln2, = plt.plot([], [], 'm*')  
+    def init():
+        ax.set_xlim(0, 2*np.pi)  
+        ax.set_ylim(-1, 1) 
+    
+    def update(i):
+        x.append(i)  
+        ysin.append(np.sin(i))  
+        ycos.append(np.cos(i))  
+        ln1.set_data(x, ysin)  
+        ln2.set_data(x, ycos)
+
+    ani = FuncAnimation(fig, update, np.linspace(0, 2*np.pi, 64), init_func=init)  
+    #plt.show()
+    writer = PillowWriter(fps=25)  
+    ani.save(image_location, writer=writer)  
+
 def counter():
     text.value = int(text.value) + 1
-    make_image(global_image_location)
-    picture.image=global_image_location
+    make_image(static_image)
+    picture.image=static_image
 
-global_image_location = 'matplotlib_images/plot.png'
+global_image_location = 'matplotlib_images/'
+static_image = f'{global_image_location}plot.png'
+animated_image = f'{global_image_location}demo_sine.gif'
 app = App()
-make_image(global_image_location)
-picture = Picture(app, image=global_image_location)
+make_image(static_image)
+animation(animated_image)
+picture = Picture(app, image=static_image)
+pushbutton = PushButton(app, image=animated_image, width=100, height=100)
 text = Text(app, text="1")
 text.repeat(1000, counter)  # Schedule call to counter() every 1000ms
 app.display()
