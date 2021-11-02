@@ -48,7 +48,7 @@ def animation(image_location):
 def counter():
     text.value = int(text.value) + 1
     make_image(static_image)
-    picture.image=static_image
+    picture2.image=static_image
 
 global_image_location = 'matplotlib_images/'
 static_image = f'{global_image_location}plot.png'
@@ -56,8 +56,12 @@ animated_image = f'{global_image_location}demo_sine.gif'
 app = App()
 make_image(static_image)
 animation(animated_image)
-picture = Picture(app, image=static_image)
-pushbutton = PushButton(app, image=animated_image, width=100, height=100)
+
+pushbutton2 = PushButton(app, image=static_image, width=100, height=100, text='Static')
+pushbutton1 = PushButton(app, image=animated_image, width=100, height=100, text='Animated')
+picture1 = Picture(app, image=static_image, height=200, width=200)
+picture2 = Picture(app, image=static_image, height=200, width=200)
+picture3 = Picture(app, image=animated_image, height=200, width=200)
 text = Text(app, text="1")
 text.repeat(1000, counter)  # Schedule call to counter() every 1000ms
 app.display()
